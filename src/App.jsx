@@ -1,11 +1,9 @@
 import React from 'react'
-import Main from './Layout/Main'
+import Router from './router/Router'
 
 const App = () => {
   return (
-    <div>
-      <Main />
-    </div>
+    <Router />
   )
 }
 

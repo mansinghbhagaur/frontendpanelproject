@@ -19,6 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
+import { Outlet } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -92,24 +94,13 @@ export default function Main() {
                               </IconButton>
                         </DrawerHeader>
                         <Divider />
-                        <List>
+                        <Sidebar />
 
-                              <ListItem disablePadding>
-                                    <ListItemButton>
-                                          <ListItemIcon>
-                                                <MailIcon />
-                                          </ListItemIcon>
-                                          <ListItemText primary="Dashboard" />
-                                    </ListItemButton>
-                              </ListItem>
-
-                        </List>
-                        <Divider />
 
                   </Drawer>
                   <MainContainer open={open}>
                         <DrawerHeader />
-                        <Typography>helo</Typography>
+                        <Outlet />
                   </MainContainer>
             </Box>
       );
