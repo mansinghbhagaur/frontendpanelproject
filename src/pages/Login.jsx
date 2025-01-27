@@ -4,9 +4,12 @@ import LockIcon from '@mui/icons-material/Lock';
 import Avatar from '@mui/material/Avatar';
 import FolderIcon from '@mui/icons-material/Folder';
 import { green, pink } from '@mui/material/colors';
+import { useNavigate } from 'react-router';
 
 
 const Login = () => {
+      const nevigate = useNavigate();
+
       const [loginData, setLoginData] = useState({
             email: '',
             password: ''
@@ -33,6 +36,8 @@ const Login = () => {
             console.table(loginData)
             setLoginData({ email: '', password: '' })
             setError({ allFiled: '' })
+            nevigate('/dashboard');
+
       }
 
       return (
@@ -56,13 +61,13 @@ const Login = () => {
                                                 <TextField fullWidth label='password' variant='outlined' size='small' name='password' value={loginData.password} onChange={(e) => HandleChange(e)} />
                                           </Grid2>
 
-                                          <Grid2 size={{ xs: 6, }} sx={{ textAlign: 'start', }}>
-                                                <Typography variant='body2' mb={1}>Forget Password?</Typography>
-                                                <Typography variant='body2'>Create new Account/signup</Typography>
+                                          <Grid2 size={{ xs: 12, }} sx={{ textAlign: 'end' }}>
+                                                <Button variant='contained' size='small' fullWidth type='submit' sx={{ background: '#f05' }}>Login</Button>
                                           </Grid2>
 
-                                          <Grid2 size={{ xs: 6, }} sx={{ textAlign: 'end' }}>
-                                                <Button variant='outlined' size='small' type='submit'>Login</Button>
+                                          <Grid2 size={{ xs: 12, }} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <Typography variant='body2' mb={1}>Forget Password?</Typography>
+                                                <Typography variant='body2'>Create new Account/signup</Typography>
                                           </Grid2>
 
                                           {error && <Typography variant='body2' sx={{ textAlign: 'center', width: "100%" }} color='error'>{error.allFiled}</Typography>}
