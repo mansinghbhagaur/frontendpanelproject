@@ -1,11 +1,13 @@
 import { Grid2, TextField } from '@mui/material'
 import React, { useState } from 'react'
 
-const StudentForm = ({ formId, setOpen }) => {
-      const [formData, setFormData] = useState({
-            name: '',
-            email: ''
-      });
+const StudentForm = ({ formId, setOpen, dispatch, initialValue = {} }) => {
+      const initialState = {
+            name: initialValue.name || '',
+            email: initialValue.email || ''
+      };
+
+      const [formData, setFormData] = useState(initialState);
 
 
       const handleChange = (e) => {
@@ -15,8 +17,14 @@ const StudentForm = ({ formId, setOpen }) => {
 
       const handleSubmit = (e) => {
             e.preventDefault();
-            console.table(formData);
+            if (initialValue) {
+                  dispatch({ type: 'EDIT_STUDENT', payload: { id: initialValue.id, ...formData } })// Update existing student
+            } else {
+                  dispatch({ type: 'ADD_STUDENT', payload: formData });// dispatch action to add student
+            }
+
             setOpen(false)
+            setFormData(initialState)
       }
 
       return (
