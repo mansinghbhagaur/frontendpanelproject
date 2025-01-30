@@ -9,10 +9,20 @@ const StudentForm = ({ formId, setOpen, dispatch, initialValue = {} }) => {
 
       const [formData, setFormData] = useState(initialState);
 
+      const [errors, setErrors] = useState({});
 
+      console.table(errors)
       const handleChange = (e) => {
+            // console.log(formData, "handle")
             const { name, value } = e.target;
             setFormData((prev) => ({ ...prev, [name]: value }))
+            if (formData.name === "") {
+                  setErrors((prev) => ({ ...prev, name: "Name is required" }));
+            } else if (formData.email === "") {
+                  setErrors((prev) => ({ ...prev, email: "Email is required" }));
+            } else {
+                  setErrors({})
+            }
       }
 
       const handleSubmit = (e) => {
