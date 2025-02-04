@@ -63,6 +63,11 @@ const Navlinks = [
                   }
             ]
       },
+      {
+            label: 'Test',
+            icon: <DeleteForever />,
+            path: '/test'
+      }
 ]
 
 

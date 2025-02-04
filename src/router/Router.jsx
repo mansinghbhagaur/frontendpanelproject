@@ -5,6 +5,7 @@ import Login from '../pages/Login'
 import Main from '../Layout/Main'
 import Dashboard from '../pages/Dashboard'
 import Student from '../pages/Student'
+import Test from '../pages/Test'
 
 const Router = () => {
       return (
@@ -18,6 +19,7 @@ const Router = () => {
                         <Route path="/" element={<Main />}>
                               <Route path="/dashboard" element={<Dashboard />} />
                               <Route path="/student" element={<Student />} />
+                              <Route path="/test" element={<Test />} />
                         </Route>
                   </Routes>
             </BrowserRouter>
