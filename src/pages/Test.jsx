@@ -13,11 +13,18 @@ const Test = () => {
             phone: ""
       })
 
-      const apiData = async () => {
-            await axios.get('https://jsonplaceholder.typicode.com/users/1')
-                  .then((res) => setUserData(res.data))
+      const apiData = () => {
+            axios.get('https://jsonplaceholder.typicode.com/users/1')
+                  .then((res) => (setUserData(res.data),
+                        setInputData({
+                              name: res.data.name,
+                              email: res.data.email,
+                              phone: res.data.phone
+                        }))
+
+                  )
       }
-      // console.log(userData.name)
+      console.log(userData.name)
       useEffect(() => {
             apiData()
       }, [])
@@ -33,8 +40,7 @@ const Test = () => {
 
       const handleSubmit = (e) => {
             e.preventDefault()
-
-
+            setUserData(inputData);
             console.log(userData)
             setOpen(false)
 
@@ -47,9 +53,9 @@ const Test = () => {
                         <Paper elevation={10} sx={{ p: 2 }}>
                               <Typography variant='h5' textAlign='center' sx={{ pt: 2 }} gutterBottom>User Profiles</Typography>
                               {!open && <Box textAlign='center'>
-                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Name: {userData.name}</span>man singh</Typography>
-                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Age: </span>24</Typography>
-                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Email: </span>test@gmail.com</Typography>
+                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Name: {userData.name}</span></Typography>
+                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Age: </span>{userData.phone}</Typography>
+                                    <Typography variant='body1'><span style={{ fontWeight: "bold" }}>Email: </span>{userData.email}</Typography>
                                     <Button sx={{ mt: 2 }} variant='contained' onClick={() => setOpen(true)}>Edit Profile</Button>
                               </Box>
                               }
@@ -69,7 +75,7 @@ const Test = () => {
                                                                   id="name"
                                                                   size="small"
                                                                   name='name'
-                                                                  value={userData.name}
+                                                                  value={inputData.name}
                                                                   onChange={(e) => { handaleChange(e) }}
                                                             />
 
@@ -79,7 +85,7 @@ const Test = () => {
                                                 <Grid2 size={{ xs: 12 }}>
                                                       <FormControl fullWidth>
                                                             <FormLabel htmlFor='phone'>Phone: </FormLabel>
-                                                            <TextField fullWidth id="phone" size="small" name='phone' value={userData.phone} onChange={(e) => { handaleChange(e) }} />
+                                                            <TextField fullWidth id="phone" size="small" name='phone' value={inputData.phone} onChange={(e) => { handaleChange(e) }} />
 
                                                       </FormControl>
                                                 </Grid2>
@@ -87,7 +93,7 @@ const Test = () => {
                                                 <Grid2 size={{ xs: 12 }}>
                                                       <FormControl fullWidth>
                                                             <FormLabel htmlFor='email'>Email: </FormLabel>
-                                                            <TextField fullWidth id="email" size="small" value={userData.email}
+                                                            <TextField fullWidth id="email" size="small" name='email' value={inputData.email}
                                                                   onChange={(e) => { handaleChange(e) }} />
                                                       </FormControl>
                                                 </Grid2>

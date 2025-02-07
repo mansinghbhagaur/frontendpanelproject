@@ -98,7 +98,7 @@ export default function Main() {
 
 
                   </Drawer>
-                  <MainContainer open={open}>
+                  <MainContainer open={open} sx={{ width: `calc(100% - ${drawerWidth}px)` }}>
                         <DrawerHeader />
                         <Outlet />
                   </MainContainer>

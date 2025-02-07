@@ -7,8 +7,8 @@ import { Typography } from '@mui/material';
 
 const validateSchema = Yup.object().shape({
       name: Yup.string().min(2).required("name jaruri hai"),
-      email: Yup.string().required("Email is required").matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-            'Invalid email address'),
+      // email: Yup.string().required("Email is required").matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+      //       'Invalid email address'),
 })
 
 
@@ -21,7 +21,7 @@ const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
             },
             validationSchema: validateSchema,
             onSubmit: (values) => {
-                  // console.log(values);
+                  console.log(values);
                   dispatch({ type: 'EDIT_STUDENT', payload: values })// dispatch action to edit student
                   setOpen(false);
             }
@@ -56,6 +56,7 @@ const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
                         onChange: handleChange,
 
                   }} />
+                  {errors && <Typography variant="body2" color='error'>{errors.email}</Typography>}
             </form>
       )
 }
