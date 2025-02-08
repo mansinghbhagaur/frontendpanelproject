@@ -1,4 +1,4 @@
-import { Button, Container, Grid2, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Button, Container, FormControl, FormHelperText, FormLabel, Grid2, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import LockIcon from '@mui/icons-material/Lock';
 import Avatar from '@mui/material/Avatar';
@@ -7,27 +7,33 @@ import { green, pink } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Navigate } from 'react-router';
 
 const Login = () => {
-      // const nevigate = useNavigate();
+      const nevigate = useNavigate();
 
       // const formik = useFormik({});
 
       const validationSchema = Yup.object().shape({
-            email: Yup.string().required().min('2').max('50', 'Too Long!').email('Invalid email'),
-            password: Yup.string().required().min('6').max('20')
+            email: Yup.string().required().min('2').max('50', 'Too Long!').email('Invalid email').matches(),
+            password: Yup.string().required().min('6').max('20'),
+            // selected: Yup.string().required()
       })
 
-      const { handleChange, handleSubmit, values, errors } = useFormik({
+      const { handleChange, handleSubmit, values, errors, handleBlur, touched } = useFormik({
             initialValues: {
                   email: '',
-                  password: ''
+                  password: '',
+                  // selected: ''
             },
             validationSchema,
             onSubmit: (values, { resetForm }) => {
                   console.log(values);
+                  nevigate("/dashboard")
                   resetForm();
-            }
+            },
+            validateOnChange: true,
+            validateOnBlur: true,
       });
 
       console.table(errors)
@@ -80,12 +86,25 @@ const Login = () => {
                               <form onSubmit={handleSubmit}>
                                     <Grid2 container spacing={2}>
                                           <Grid2 size={{ xs: 12, sm: 12 }}>
-                                                <TextField error={errors.email} helperText={errors.email} fullWidth label='Email' variant='outlined' size='small' name="email" value={values.email} onChange={handleChange} />
+                                                <TextField onBlur={handleBlur} error={Boolean(touched.email && errors.email)} helperText={touched.email && errors.email} fullWidth label='Email' variant='outlined' size='small' name="email" value={values.email} onChange={handleChange} />
                                           </Grid2>
 
                                           <Grid2 size={{ xs: 12, sm: 12 }}>
-                                                <TextField fullWidth error={errors.password} helperText={errors.password} label='password' variant='outlined' size='small' name='password' value={values.password} onChange={handleChange} />
+                                                <TextField fullWidth onBlur={handleBlur} error={Boolean(touched.password && errors.password)} helperText={touched.password && errors.password} label='password' variant='outlined' size='small' name='password' value={values.password} onChange={handleChange} />
                                           </Grid2>
+
+                                          {/* <Grid2 size={{ xs: 12 }}>
+                                                <FormControl fullWidth size='small'>
+                                                      <FormLabel error={Boolean(touched.selected && errors.selected)} > Select</FormLabel>
+                                                      <Select error={Boolean(touched.selected && errors.selected)} name='selected' value={values.selected || ""} displayEmpty onChange={handleChange}>
+                                                            <MenuItem value="">Select</MenuItem>
+                                                            <MenuItem value="1">select 1</MenuItem>
+                                                            <MenuItem value="2">select 2</MenuItem>
+                                                            <MenuItem value="3">select 3</MenuItem>
+                                                      </Select>
+                                                      <FormHelperText error={Boolean(touched.selected && errors.selected)}>{touched.selected && errors.selected}</FormHelperText>
+                                                </FormControl>
+                                          </Grid2> */}
 
                                           <Grid2 size={{ xs: 12, }} sx={{ textAlign: 'end' }}>
                                                 <Button variant='contained' size='small' fullWidth type='submit' sx={{ background: '#f05' }}>Login</Button>
@@ -107,3 +126,4 @@ const Login = () => {
 }
 
 export default Login
+
