@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInputField from '../input/TextInputField'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
-import { Typography } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
+import SnackBarAlert from '../SnackBarAlert';
 
 
 const validateSchema = Yup.object().shape({
@@ -12,7 +13,9 @@ const validateSchema = Yup.object().shape({
 })
 
 
-const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
+const FormikForm = ({ formId, initialValue = '', setOpen, dispatch, setSnakeBar }) => {
+
+
       // console.log(Yup, 'Yup')
       const { handleSubmit, handleChange, values, setValues, resetForm, errors, } = useFormik({
             initialValues: {
@@ -22,12 +25,23 @@ const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
             validationSchema: validateSchema,
             onSubmit: (values) => {
                   console.log(values);
-                  dispatch({ type: 'EDIT_STUDENT', payload: values })// dispatch action to edit student
-                  setOpen(false);
+                  if (values.id) {
+                        dispatch({ type: 'EDIT_STUDENT', payload: values })// dispatch action to edit student
+                        setSnakeBar({ type: "success", open: true, message: "user inserted successfully!" })
+                        setOpen(false);
+
+                  } else {
+                        dispatch({ type: 'ADD_STUDENT', payload: values })
+                        setSnakeBar({ type: "success", open: true, message: "user inserted successfully!" })
+                        // dispatch action to add student
+                        setOpen(false);
+                  }
             }
       });
 
-      console.table(errors, "error")
+
+
+      // console.table(errors, "error")
       useEffect(() => {
             if (initialValue !== '') {
                   setValues({ ...initialValue })
@@ -35,7 +49,7 @@ const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
       }, [initialValue, setValues])
 
       // console.log(formik, "formik")
-      return (
+      return (<>
             <form onSubmit={handleSubmit} id={formId}>
                   <TextInputField label='Name' textPropsValue={{
                         id: 'name',
@@ -58,6 +72,7 @@ const FormikForm = ({ formId, initialValue = '', setOpen, dispatch }) => {
                   }} />
                   {errors && <Typography variant="body2" color='error'>{errors.email}</Typography>}
             </form>
+      </>
       )
 }
 
