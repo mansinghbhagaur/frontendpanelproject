@@ -12,6 +12,7 @@ import BasicConfirmBox from '../components/BasicConfirmBox';
 
 const Student = () => {
       const [open, setOpen] = React.useState(false);
+      const [confirmBoxOpen, setConfirmBoxOpen] = React.useState(false);
       const [selectedRow, setSelectedRow] = useState('');
       const [state, dispatch] = useLocalStorageHook('students', studentReducer, []);
 
@@ -27,6 +28,7 @@ const Student = () => {
       };
       const handleClose = () => {
             setOpen(false);
+            setConfirmBoxOpen(false);
       };
 
       const column = [
@@ -42,7 +44,7 @@ const Student = () => {
             },
             {
                   icon: <Delete />,
-                  onClick: (row) => dispatch({ type: 'DELETE_STUDENT', payload: row })
+                  onClick: (row) => { setSelectedRow(row), setConfirmBoxOpen(true) },
             }
       ]
 
@@ -60,7 +62,7 @@ const Student = () => {
 
                   <ReusabeTable width='xl' columns={column} rows={state} actions={actions} dynamicHeaderStyle={true} />
                   <SnackBarAlert handleSnackClose={handleSnackClose} snakebar={snakebar} />
-                  <BasicConfirmBox open={open} />
+                  <BasicConfirmBox handleClose={handleClose} open={confirmBoxOpen} row={selectedRow} dispatch={dispatch} />
             </div>
       )
 }
